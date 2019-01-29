@@ -20,7 +20,6 @@
 #include "error_wrapper.h"
 #include "point.h"
 
-
 extern "C" {
 void UserMain(void *pd);
 void StartTask1(void);
@@ -31,16 +30,15 @@ void StartTask3(void);
 void Task3Main(void *pd);
 }
 
-
 /* Task stacks for all the user tasks */
 /* If you add a new task you'll need to add a new stack for that task */
 DWORD Task1Stk[USER_TASK_STK_SIZE] __attribute__(( aligned( 4 )));
 DWORD Task2Stk[USER_TASK_STK_SIZE] __attribute__(( aligned( 4 )));
 DWORD Task3Stk[USER_TASK_STK_SIZE] __attribute__(( aligned( 4 )));
 
-
 const char *AppName = "Lab 1: Nathan Klapstein, Thomas Lorincz";
-
+// custom dollar sprite
+const BYTE dollar[7] = {0x00, 0x24, 0x2a, 0x7f, 0x2a, 0x12, 0x00};
 
 /* User task priorities always based on MAIN_PRIO */
 /* The priorities between MAIN_PRIO and the IDLE_PRIO are available */
@@ -77,20 +75,24 @@ void UserMain(void *pd) {
     InitializeNetworkGDB_and_Wait();
 #endif
 
-    iprintf("Application started: %s\n", AppName);
-
+    // setup the semaphores for Tasks 1-3
     OSSemInit(&sem1, 1);
     OSSemInit(&sem2, 0);
     OSSemInit(&sem3, 0);
     OSSemInit(&sem4, 0);
 
+    // initialize and clear the LCD screen
     myLCD.Init();
     myLCD.Clear();
 
+    iprintf("Application started: %s\n", AppName);
+
+    // create and start Tasks 1-3
     StartTask1();
     StartTask2();
     StartTask3();
 
+    // execute Tasks 1-3 forever
     while (1) {
         OSTimeDly(TICKS_PER_SECOND);
     }
@@ -100,7 +102,6 @@ void UserMain(void *pd) {
  * Draw a $ sprite at the current position on the LCD.
  */
 void drawDollar() {
-    const BYTE dollar[7] = {0x00, 0x24, 0x2a, 0x7f, 0x2a, 0x12, 0x00};
     myLCD.DrawChar(dollar);
 }
 
