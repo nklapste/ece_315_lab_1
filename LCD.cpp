@@ -1,4 +1,4 @@
-/*
+/**
  * LCD.cpp
  *
  *  Created on: Sep 22, 2016
@@ -10,6 +10,9 @@
  *      https://www.sparkfun.com/products/10168
  *      Arduino sketch code
  *      http://playground.arduino.cc/Code/PCD8544
+ *
+ * Modified on: January 29, 2019
+ *      Author: Nathan Klapstein
  */
 
 #include "LCD.h"
@@ -39,11 +42,7 @@ LCD::~LCD() {
 }
 
 /**
- * Name: Init
- * Description: Initializes both the DQSPI module on the MOD54415
- * and the LCD controller
- * Inputs: none
- * Outputs: none
+ * Initializes both the DQSPI module on the MOD54415 and the LCD controller.
  */
 void LCD::Init(void) {
 
@@ -52,21 +51,17 @@ void LCD::Init(void) {
 }
 
 /**
- * Name: Clear
- * Description: Clears the LCD by sending a screen full of space characters
- * Inputs: 48 X 84 pixels (504 Bytes) array of space characters. clear_array is in bitmaps.h
- * Outputs: none
+ * Clears the LCD by sending a screen full of space characters.
  */
 void LCD::Clear(void) {
+    // clear_array is in bitmaps.h it is a 48 X 84 pixels (504 Bytes) array of space characters.
     send_data((BYTE *) clear_array, SCREEN_SIZE);
 }
 
 /**
- * Name: Invert
- * Description: Inverts every pixel on screen from white to black and vice versa
- * Note that the data in memory on the LCD does not change
- * Inputs: none
- * Outputs: none
+ * Inverts every pixel on screen from white to black and vice versa.
+ *
+ * @note The data in memory on the LCD does not change.
  */
 void LCD::Invert(void) {
     static BOOL inverted = false;
@@ -86,11 +81,10 @@ void LCD::Invert(void) {
 }
 
 /**
- * Name: DrawBitmap
- * Description: Sends a bitmap of raw data to the screen starting at the upper left hand pixel of the screen
- * Array must be 504 Bytes in size.
- * Inputs: const BYTE * bitmap
- * Outputs: none
+ * Sends a bitmap of raw data to the screen starting at the upper left
+ * hand pixel of the screen.
+ *
+ * @param bitmap {@code const BYTE *} bitmap that is 504 Bytes in size.
  */
 void LCD::DrawBitmap(const BYTE *bitmap) {
     Home();
@@ -98,14 +92,17 @@ void LCD::DrawBitmap(const BYTE *bitmap) {
 }
 
 /**
- * Name: DrawString
- * Description: Sends a c-style string to the display at the current index. String must be null terminated
- * All elements in the string must be ASCII characters > space (0x20). Do not send
- * non-printable characters. Bad things will happen.
- * Inputs: char * str - address of first character in string. String will be displayed
- * at fixed locations on screen determined by points in ASCII_7 array in bitmaps.h
- * Font table is also in bitmaps.h
- * Outputs: none
+ * Sends a c-style string to the display at the current index.
+ *
+ * @note String must be null terminated
+ * @note All elements in the string must be ASCII characters > space (0x20).
+ * @warning Do not send non-printable characters. Bad things will happen.
+ *
+ * @param str {@code char *} address of first character in string.
+ *      String will be displayed at fixed locations on screen determined
+ *      by points in ASCII_7 array in bitmaps.h
+ *
+ * @see bitmaps.h for the Font table
  */
 void LCD::DrawString(char *str) {
     BYTE index = 0;
@@ -117,22 +114,25 @@ void LCD::DrawString(char *str) {
 }
 
 /**
- * Name: DrawChar
- * Description: Draws a 7 pixel (width) by 8 pixel (height) sprite at the current location.
- * Use the font tables in bitmaps.h to select a sprite.
- * Inputs: const BYTE * ch -  an array of raw data that represents the character.
- * Outputs:
+ * Draws a 7 pixel (width) by 8 pixel (height) sprite at the current location.
+ *
+ * @note Use the font tables in bitmaps.h to select a sprite.
+ *
+ * @param ch {@code const BYTE *} array of raw data that represents the character.
+ *
+ * @see bitmaps.h for the Font table
  */
 void LCD::DrawChar(const BYTE *ch) {
     send_data((BYTE *) ch, CHAR_SIZE);
 }
 
 /**
- * Name:DrawChar
- * Description: Draws a 7 pixel(width) by 8 pixel( height) sprite at the provided location
- * Inputs:  const BYTE * ch -  an array of raw data that represents the character.
- * 			point loc must be one of the locations in the char_index array in bitmaps.h
- * Outputs: none
+ * Draws a 7 pixel(width) by 8 pixel( height) sprite at the provided location.
+ *
+ * @param ch {@code const BYTE *} array of raw data that represents the character.
+ * @param loc {@code point} one of the locations in the char_index array in bitmaps.h
+ *
+ * @see bitmaps.h for the char_index array
  */
 void LCD::DrawChar(const BYTE *ch, point loc) {
     move(loc);
@@ -140,10 +140,9 @@ void LCD::DrawChar(const BYTE *ch, point loc) {
 }
 
 /**
- * Name: Test LCD
- * Description: Sends a fixed bitmap to the screen 84 X 48 pixels = 504 Bytes
- * Inputs: none
- * Outputs: none
+ * Sends a fixed 84 X 48 pixels = 504 Bytes bitmap to the screen
+ *
+ * @note This method should display a funny xkcd comic.
  */
 void LCD::TestLCD(void) {
     Home();
@@ -160,24 +159,24 @@ void LCD::Home(void) {
 }
 
 /**
- * Name: Move
- * Description: Moves te internal counter of the LCD to the lcoation specified
- * To write characters linmit the values of point to the members of the char_index array
- * in bitmaps.h. No checks are made. If you overflow the x and y counters you will get unexpected
- * results.
- * Inputs: point loc - location to move to
- * Outputs: none
+ * Moves te internal counter of the LCD to the location specified.
+ *
+ * @note To write characters limit the values of point to the members of the
+ * char_index array in bitmaps.h. No checks are made.
+ *
+ * @warning If you overflow the x and y counters you will get unexpected results.
+ *
+ * @param loc {@code point} location to move to
+ *
+ * @see bitmaps.h for the char_index array
  */
 void LCD::Move(point loc) {
     move(loc);
 }
 
 /**
- * Name: init_spi
- * Description: Initializes the SPI module on the 54415 to match the requirements of the
- * NOKIA 51150 with PCD8544 LCD controller
- * Inputs: none
- * Outputs: none
+ * Initializes the SPI module on the 54415 to match the requirements of the
+ * NOKIA 51150 with PCD8544 LCD controller.
  */
 void LCD::init_spi(void) {
     LCD_CLOCK.function(PINJ2_25_DSPI1_SCK);      // set SPI clock function on pin J2[25]
@@ -209,25 +208,27 @@ void LCD::init_spi(void) {
     );
 }
 
-/* Name: send_data
- * Description: Sends data to the LCD, with size being the total number of bytes of data.
- * This will display it at the current location
- * Inputs: const Byte * data - data to be sent to screen in raw form. size - number of bytes to display
- * Outputs: none
+/**
+ * Sends data to the LCD, with size being the total number of bytes of data.
+ * This will display the given data at the current location.
+ *
+ * @param data {@code const BYTE *} data to be sent to screen in raw form.
+ * @param size {@code WORD} number of bytes to display
  */
 void LCD::send_data(const BYTE *data, WORD size) {
 //    LCD_C_D_LINE = 1; // 1 = data
     LCD_C_D_LINE = DATA_MODE; // 1 = data
-    DSPIStart(DEFAULT_DSPI_MODULE, (BYTE *) data,
-              NULL, size, &DSPI_SEM); // send data via SPI bus
+    // send data via SPI bus
+    DSPIStart(DEFAULT_DSPI_MODULE, (BYTE *) data, NULL, size, &DSPI_SEM);
     display_error("LCD::send_data \n", OSSemPend(&DSPI_SEM, WAIT_FOREVER));
 }
 
-/* Name: send_cmd
- * Description: Sends a command to the LCD. All possible commands are in
- * lcd.h
- * Inputs: BYTE command - valid LCD command from LCD.h
- * Outputs: none
+/**
+ * Sends a command to the LCD.
+ *
+ * @param command {@code BYTE} the LCD command to send
+ *
+ * @see LCD.h for all possible command definitions
  */
 void LCD::send_cmd(BYTE command) {
 //    LCD_C_D_LINE = 0;  // 0 = command
@@ -241,11 +242,12 @@ void LCD::send_cmd(BYTE command) {
 }
 
 /**
- * See cite above for sparkfun and arduino info. This method
- * sends initialization commands to the PCD 8544 LCD controller.
+ * Send initialization commands to the PCD 8544 LCD controller.
  *
  * Modified to avoid using magic values. Instead this uses the
  * definitions placed within LCD.h.
+ *
+ * @see LCD.h for all possible command definitions
  */
 void LCD::init_lcd(void) {
 
@@ -272,15 +274,17 @@ void LCD::init_lcd(void) {
     move(char_index[LINE1_ORIGIN]);
 }
 
-/* Name: move
- * Description: Set the internal counters of the LCDs to the location provided
- * non-ASCII character data:
- * point.x should be between 0 and 83
- * point.y should be between 0 and 5
- * ASCII character data:
- * point should be one of the char_index points in char_index in bitmaps.h
- * Inputs: point location - new location for internal location counters of LCD controller
- * Outputs: none
+/**
+ * Set the internal counters of the LCDs to the location provided.
+ *
+ * @param loc {@code point} new location for internal location counters of LCD controller.
+ *      For ASCII character data:
+ *          - loc should be one of the char_index points in char_index in bitmaps.h
+ *      For non-ASCII character data:
+ *          - loc.x should be between 0 and 83
+ *          - loc.y should be between 0 and 5
+ *
+ * @see bitmaps.h for the char_index array
  */
 void LCD::move(point loc) {
     send_cmd(CMD_FUNCTION_SET);
