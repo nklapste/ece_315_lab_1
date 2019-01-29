@@ -57,7 +57,7 @@ OS_SEM sem1, sem2, sem3, sem4;
 /**
  * Main entry point for Lab 1
  *
- * @param pd
+ * @param pd {@code void *}
  */
 void UserMain(void *pd) {
     BYTE err = OS_NO_ERR;
@@ -109,7 +109,6 @@ void drawDollar() {
  */
 void StartTask1(void) {
     BYTE err = OS_NO_ERR;
-
     err = display_error("StartTask1 fail:",
                         OSTaskCreatewName(Task1Main,
                                           (void *) NULL,
@@ -123,7 +122,7 @@ void StartTask1(void) {
  *
  * Prints the sprite on the upper third of the screen.
  *
- * @param pd
+ * @param pd {@code void *}
  */
 void Task1Main(void *pd) {
     while (1) {
@@ -152,7 +151,6 @@ void Task1Main(void *pd) {
  */
 void StartTask2(void) {
     BYTE err = OS_NO_ERR;
-
     err = display_error("StartTask2 fail:",
                         OSTaskCreatewName(Task2Main,
                                           (void *) NULL,
@@ -166,7 +164,7 @@ void StartTask2(void) {
  *
  * Prints the sprite on the left and right middle third of the screen.
  *
- * @param pd
+ * @param pd {@code void *}
  */
 void Task2Main(void *pd) {
     while (1) {
@@ -195,7 +193,6 @@ void Task2Main(void *pd) {
  */
 void StartTask3(void) {
     BYTE err = OS_NO_ERR;
-
     err = display_error("StartTask3 fail:",
                         OSTaskCreatewName(Task3Main,
                                           (void *) NULL,
@@ -209,7 +206,7 @@ void StartTask3(void) {
  *
  * Prints the sprite on the lower third of the screen.
  *
- * @param pd
+ * @param pd {@code void *}
  */
 void Task3Main(void *pd) {
     while (1) {
@@ -226,6 +223,5 @@ void Task3Main(void *pd) {
         drawDollar();
         OSTimeDly(TICKS_PER_SECOND);
         OSSemPost(&sem4);
-
     }
 }
