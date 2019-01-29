@@ -1,4 +1,6 @@
 /**
+ * lab1.cpp
+ *
  * ECE 315 Lab 1
  *
  * Copyright 2019 Nathan Klapstein, Thomas Lorincz
