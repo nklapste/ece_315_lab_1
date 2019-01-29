@@ -39,7 +39,7 @@ DWORD Task2Stk[USER_TASK_STK_SIZE] __attribute__(( aligned( 4 )));
 DWORD Task3Stk[USER_TASK_STK_SIZE] __attribute__(( aligned( 4 )));
 
 
-const char *AppName = "Nathan Klapstein, Thomas Lorincz";
+const char *AppName = "Lab 1: Nathan Klapstein, Thomas Lorincz";
 
 
 /* User task priorities always based on MAIN_PRIO */
