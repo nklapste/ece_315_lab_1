@@ -1,4 +1,8 @@
-// copyright 2019 Nathan Klapstein, Thomas Lorincz
+/**
+ * ECE 315 Lab 1
+ *
+ * Copyright 2019 Nathan Klapstein, Thomas Lorincz
+ */
 
 #include <predef.h>
 #include <stdio.h>
