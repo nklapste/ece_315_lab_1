@@ -127,7 +127,7 @@ void StartTask1(void) {
  */
 void Task1Main(void *pd) {
     while (1) {
-        OSSemPend(&sem1, 0);
+        OSSemPend(&sem1, WAIT_FOREVER);
         myLCD.Clear();
         for (int i = LINE1_END; i >= LINE1_ORIGIN; i--) {
             myLCD.Move(char_index[i]);
@@ -139,7 +139,7 @@ void Task1Main(void *pd) {
         OSTimeDly(TICKS_PER_SECOND);
         OSSemPost(&sem2);
 
-        OSSemPend(&sem1, 0);
+        OSSemPend(&sem1, WAIT_FOREVER);
         myLCD.Move(char_index[LINE2_END]);
         drawDollar();
         OSTimeDly(TICKS_PER_SECOND);
@@ -169,7 +169,7 @@ void StartTask2(void) {
  */
 void Task2Main(void *pd) {
     while (1) {
-        OSSemPend(&sem2, 0);
+        OSSemPend(&sem2, WAIT_FOREVER);
         myLCD.Move(char_index[LINE3_ORIGIN]);
         drawDollar();
         OSTimeDly(TICKS_PER_SECOND);
@@ -178,7 +178,7 @@ void Task2Main(void *pd) {
         OSTimeDly(TICKS_PER_SECOND);
         OSSemPost(&sem3);
 
-        OSSemPend(&sem4, 0);
+        OSSemPend(&sem4, WAIT_FOREVER);
         myLCD.Move(char_index[LINE4_END]);
         drawDollar();
         OSTimeDly(TICKS_PER_SECOND);
@@ -211,7 +211,7 @@ void StartTask3(void) {
  */
 void Task3Main(void *pd) {
     while (1) {
-        OSSemPend(&sem3, 0);
+        OSSemPend(&sem3, WAIT_FOREVER);
         myLCD.Move(char_index[LINE5_ORIGIN]);
         drawDollar();
         OSTimeDly(TICKS_PER_SECOND);
