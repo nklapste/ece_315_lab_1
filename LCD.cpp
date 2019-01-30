@@ -256,7 +256,7 @@ void LCD::init_lcd(void) {
     LCD_RESET = 1;
     // Insert your ex 2 code modifications here
     // H = 1
-//	sned_cmd(0x21)
+//	send_cmd(0x21)
     send_cmd(CMD_FUNCTION_SET | OPT_EXT_INSTR); // set H = 1
 //	send_cmd(0xB0);
 //	send_cmd(CMD_SET_VOP | OPT_CONTRAST_LIGHT) // original low contrast mode
