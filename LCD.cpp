@@ -260,14 +260,14 @@ void LCD::init_lcd(void) {
     send_cmd(CMD_FUNCTION_SET | OPT_EXT_INSTR); // set H = 1
 //	send_cmd(0xB0);
 //	send_cmd(CMD_SET_VOP | OPT_CONTRAST_LIGHT) // original low contrast mode
-    send_cmd(CMD_SET_VOP | OPT_CONTRAST_DARK)
+    send_cmd(CMD_SET_VOP | OPT_CONTRAST_DARK);
 //	send_cmd(0x04)
     send_cmd(CMD_TEMP_CNTRL | OPT_VLCD_COEFF_0);
 //	send_cmd(0x14)
     send_cmd(CMD_BIAS_SYSTEM | OPT_N_3);
     // H = 0
 //	send_cmd(0x20)
-    send_cmd(CMD_INSTR_SET); // set H = 0
+    send_cmd(CMD_FUNCTION_SET | OPT_BASIC_INSTR); // set H = 0
 //	send_cmd(0x0C)
     send_cmd(CMD_DISPLAY_CONTROL | OPT_NORMAL);
     // End ex 2 modifications
